@@ -1,6 +1,7 @@
+// pages/factions/[faction].tsx
 import { GetStaticProps } from 'next';
 import UnitCard from '../../components/unitcard';
-import { Unit } from '../../components/unitcard';
+import { Unit } from '../../types';
 
 interface FactionData {
   name: string;
