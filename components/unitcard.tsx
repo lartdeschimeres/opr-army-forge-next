@@ -1,31 +1,14 @@
-import { ReactNode } from 'react';
-
-interface UnitStats {
-  Mouvement: number;
-  CC: number;
-  CT: number;
-  Endurance: number;
-  Commandement: number;
-}
-
-interface Unit {
-  id: string;
-  name: string;
-  cost: number;
-  stats: UnitStats;
-  weapons: string[];
-  specialRules: string[];
-  upgrades: Array<{ name: string; cost: number; effect: string }>;
-}
+// components/unitcard.tsx
+import { Unit } from '../types';
 
 export function UnitCard({ unit }: { unit: Unit }) {
   return (
     <div className="unit-card">
       <h2>{unit.name} <span>({unit.cost} pts)</span></h2>
       <div className="stats">
-        {Object.entries(unit.stats).map[([stat, value]) => (
+        {Object.entries(unit.stats).map(([stat, value]) => (
           <div key={stat}>
-            <strong>{stat}:</strong> {value.toString()}
+            <strong>{stat}:</strong> {value}
           </div>
         ))}
       </div>
@@ -39,15 +22,12 @@ export function UnitCard({ unit }: { unit: Unit }) {
         <div className="upgrades">
           <strong>Améliorations:</strong>
           {unit.upgrades.map((upgrade) => (
-            <label key={upgrade.name}>
-              <input
-                type="radio"
-                name={`upgrade-${unit.id}`}
-                checked={false}
-                onChange={() => {}}
-              />
-              {upgrade.name} (+{upgrade.cost} pts) – {upgrade.effect}
-            </label>
+            <div key={upgrade.name}>
+              <input type="radio" id={upgrade.name} name={`upgrade-${unit.id}`} />
+              <label htmlFor={upgrade.name}>
+                {upgrade.name} (+{upgrade.cost} pts) – {upgrade.effect}
+              </label>
+            </div>
           ))}
         </div>
       )}
