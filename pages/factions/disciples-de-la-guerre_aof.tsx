@@ -1,5 +1,5 @@
 // pages/factions/[faction].tsx
-import { GetStaticProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import UnitCard from '../../components/unitcard';
 import { Unit } from '../../types';
 
@@ -22,13 +22,13 @@ export default function FactionPage({ factionData }: { factionData: FactionData 
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const factionData = require(`../../public/factions/${params!.faction}.json`);
+  const factionData = require(`../../public/factions/${params!.faction}_aof.json`);
   return { props: { factionData } };
 };
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [{ params: { faction: 'disciples-de-la-guerre' } }],
     fallback: false,
   };
-};
+}
