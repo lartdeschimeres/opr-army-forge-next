@@ -22,7 +22,11 @@ export default function FactionPage({ factionData }: { factionData: FactionData 
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const factionData = require(`../../public/factions/${params!.faction}_aof.json`);
+  const fs = require('fs');
+  const path = require('path');
+  const filePath = path.join(process.cwd(), 'public', 'factions', `${params!.faction}_aof.json`);
+  const jsonData = fs.readFileSync(filePath, 'utf8');
+  const factionData = JSON.parse(jsonData);
   return { props: { factionData } };
 };
 
@@ -31,4 +35,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: [{ params: { faction: 'disciples-de-la-guerre' } }],
     fallback: false,
   };
-}
+};
