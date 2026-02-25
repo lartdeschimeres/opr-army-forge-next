@@ -25,7 +25,7 @@ export function UnitCard({ unit }: { unit: Unit }) {
       <div className="stats">
         {Object.entries(unit.stats).map(([stat, value]) => (
           <div key={stat}>
-            <strong>{stat}:</strong> {value}
+            <strong>{stat}:</strong> {value as React.ReactNode}
           </div>
         ))}
       </div>
