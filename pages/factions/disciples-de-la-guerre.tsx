@@ -1,34 +1,29 @@
-// pages/factions/[faction].tsx
-import { GetStaticProps, GetStaticPaths } from 'next';
 import UnitCard from '../../components/unitcard';
-import { Unit } from '../../types';
 
-interface FactionData {
-  name: string;
-  units: Unit[];
+export async function getStaticProps({ params }) {
+  const fs = require('fs');
+  const path = require('path');
+  const filePath = path.join(process.cwd(), 'public', 'factions', `${params.faction}.json`);
+  const factionData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  return { props: { factionData } };
 }
 
-export default function FactionPage({ factionData }: { factionData: FactionData }) {
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { faction: 'disciples-de-la-guerre' } }],
+    fallback: false,
+  };
+}
+
+export default function FactionPage({ factionData }) {
   return (
     <div>
       <h1>{factionData.name}</h1>
       <div className="units-grid">
-        {factionData.units.map((unit) => (
+        {factionData.units.map(unit => (
           <UnitCard key={unit.id} unit={unit} />
         ))}
       </div>
     </div>
   );
 }
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const factionData = require(`../../public/factions/${params!.faction}.json`);
-  return { props: { factionData } };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [{ params: { faction: 'disciples-de-la-guerre' } }],
-    fallback: false,
-  };
-};
