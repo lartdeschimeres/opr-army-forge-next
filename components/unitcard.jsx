@@ -1,14 +1,12 @@
-// components/unitcard.tsx
-import { Unit } from '../types';
-
-export function UnitCard({ unit }: { unit: Unit }) {
+// components/unitcard.jsx
+export function UnitCard({ unit }) {
   return (
     <div className="unit-card">
       <h2>{unit.name} <span>({unit.cost} pts)</span></h2>
       <div className="stats">
         {Object.entries(unit.stats).map(([stat, value]) => (
           <div key={stat}>
-            <strong>{stat}:</strong> {value as unknown as React.ReactNode}
+            <strong>{stat}:</strong> {value}
           </div>
         ))}
       </div>
