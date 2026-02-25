@@ -1,1 +1,39 @@
+import { useState } from 'react';
+
+export function UnitCard({ unit }: { unit: any }) {
+  const [selectedUpgrade, setSelectedUpgrade] = useState<string | null>(null);
+
+  return (
+    <div className="unit-card">
+      <h2>{unit.name} <span>({unit.cost} pts)</span></h2>
+      <div className="stats">
+        {Object.entries(unit.stats).map(([stat, value]) => (
+          <div key={stat}><strong>{stat}:</strong> {value}</div>
+        ))}
+      </div>
+      <div className="weapons">
+        <strong>Armes:</strong> {unit.weapons.join(', ')}
+      </div>
+      <div className="special-rules">
+        <strong>Règles spéciales:</strong> {unit.specialRules.join(', ')}
+      </div>
+      {unit.upgrades.length > 0 && (
+        <div className="upgrades">
+          <strong>Améliorations:</strong>
+          {unit.upgrades.map((upgrade: any) => (
+            <label key={upgrade.name}>
+              <input
+                type="radio"
+                name={`upgrade-${unit.id}`}
+                checked={selectedUpgrade === upgrade.name}
+                onChange={() => setSelectedUpgrade(upgrade.name)}
+              />
+              {upgrade.name} (+{upgrade.cost} pts) – {upgrade.effect}
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
