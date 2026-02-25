@@ -1,34 +1,33 @@
-import { useRouter } from 'next/router';
-import { UnitCard } from '../../components/UnitCard';
-import { FactionLayout } from '../../components/FactionLayout';
+import { GetStaticProps } from 'next';
+import UnitCard from '../../components/unitcard';
+import { Unit } from '../../components/unitcard';
 
-export default function FactionPage({ factionData }: { factionData: any }) {
-  const router = useRouter();
-  const { faction } = router.query;
+interface FactionData {
+  name: string;
+  units: Unit[];
+}
 
+export default function FactionPage({ factionData }: { factionData: FactionData }) {
   return (
-    <FactionLayout factionName={factionData.name}>
+    <div>
       <h1>{factionData.name}</h1>
       <div className="units-grid">
-        {factionData.units.map((unit: any) => (
+        {factionData.units.map((unit) => (
           <UnitCard key={unit.id} unit={unit} />
         ))}
       </div>
-    </FactionLayout>
+    </div>
   );
 }
 
-// Chargement des données au build (SSG)
-export async function getStaticProps({ params }: { params: { faction: string } }) {
-  const factionData = require(`../../public/factions/${params.faction}.json`);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const factionData = require(`../../public/factions/${params!.faction}.json`);
   return { props: { factionData } };
-}
+};
 
-// Génération des paths statiques (pour SSG)
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
   return {
-    paths: [{ params: { faction: 'disciples-de-la-guerre_aof' } }],
+    paths: [{ params: { faction: 'disciples-de-la-guerre' } }],
     fallback: false,
   };
-}
-
+};
