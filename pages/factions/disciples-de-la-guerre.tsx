@@ -22,11 +22,7 @@ export default function FactionPage({ factionData }: { factionData: FactionData 
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const fs = require('fs');
-  const path = require('path');
-  const filePath = path.join(process.cwd(), 'public', 'factions', `${params!.faction}_aof.json`);
-  const jsonData = fs.readFileSync(filePath, 'utf8');
-  const factionData = JSON.parse(jsonData);
+  const factionData = require(`../../public/factions/${params!.faction}.json`);
   return { props: { factionData } };
 };
 
