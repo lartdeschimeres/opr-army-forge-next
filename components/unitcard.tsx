@@ -1,29 +1,33 @@
-import UnitCard from '../../components/unitcard';
-
-export async function getStaticProps({ params }) {
-  const fs = require('fs');
-  const path = require('path');
-  const filePath = path.join(process.cwd(), 'public', 'factions', `${params.faction}.json`);
-  const factionData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  return { props: { factionData } };
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { faction: 'disciples-de-la-guerre' } }],
-    fallback: false,
-  };
-}
-
-export default function FactionPage({ factionData }) {
+export default function UnitCard({ unit }) {
   return (
-    <div>
-      <h1>{factionData.name}</h1>
-      <div className="units-grid">
-        {factionData.units.map(unit => (
-          <UnitCard key={unit.id} unit={unit} />
-        ))}
+    <div className="unit-card">
+      <h2>{unit.name} <span>({unit.cost} pts)</span></h2>
+      <div className="stats">
+        <div><strong>Mouvement:</strong> {unit.stats.Mouvement}</div>
+        <div><strong>CC:</strong> {unit.stats.CC}</div>
+        <div><strong>CT:</strong> {unit.stats.CT}</div>
+        <div><strong>Endurance:</strong> {unit.stats.Endurance}</div>
+        <div><strong>Commandement:</strong> {unit.stats.Commandement}</div>
       </div>
+      <div className="weapons">
+        <strong>Armes:</strong> {unit.weapons.join(', ')}
+      </div>
+      <div className="special-rules">
+        <strong>Règles spéciales:</strong> {unit.specialRules.join(', ')}
+      </div>
+      {unit.upgrades.length > 0 && (
+        <div className="upgrades">
+          <strong>Améliorations:</strong>
+          {unit.upgrades.map(upgrade => (
+            <div key={upgrade.name}>
+              <input type="radio" id={upgrade.name} name={`upgrade-${unit.id}`} />
+              <label htmlFor={upgrade.name}>
+                {upgrade.name} (+{upgrade.cost} pts) – {upgrade.effect}
+              </label>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
