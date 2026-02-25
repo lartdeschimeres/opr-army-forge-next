@@ -2,24 +2,15 @@
 import { Unit } from '../types';
 
 export function UnitCard({ unit }: { unit: Unit }) {
-  const renderStats = () => {
-    const stats = unit.stats;
-    return (
-      <>
-        <div><strong>Mouvement:</strong> {stats.Mouvement}</div>
-        <div><strong>CC:</strong> {stats.CC}</div>
-        <div><strong>CT:</strong> {stats.CT}</div>
-        <div><strong>Endurance:</strong> {stats.Endurance}</div>
-        <div><strong>Commandement:</strong> {stats.Commandement}</div>
-      </>
-    );
-  };
-
   return (
     <div className="unit-card">
       <h2>{unit.name} <span>({unit.cost} pts)</span></h2>
       <div className="stats">
-        {renderStats()}
+        <div><strong>Mouvement:</strong> {unit.stats.Mouvement}</div>
+        <div><strong>CC:</strong> {unit.stats.CC}</div>
+        <div><strong>CT:</strong> {unit.stats.CT}</div>
+        <div><strong>Endurance:</strong> {unit.stats.Endurance}</div>
+        <div><strong>Commandement:</strong> {unit.stats.Commandement}</div>
       </div>
       <div className="weapons">
         <strong>Armes:</strong> {unit.weapons.join(', ')}
