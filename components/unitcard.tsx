@@ -1,6 +1,22 @@
-import { useState } from 'react';
+interface UnitStats {
+  Mouvement: number;
+  CC: number;
+  CT: number;
+  Endurance: number;
+  Commandement: number;
+}
 
-export function UnitCard({ unit }: { unit: any }) {
+interface Unit {
+  id: string;
+  name: string;
+  cost: number;
+  stats: UnitStats;
+  weapons: string[];
+  specialRules: string[];
+  upgrades: Array<{ name: string; cost: number; effect: string }>;
+}
+
+export function UnitCard({ unit }: { unit: Unit }) {
   const [selectedUpgrade, setSelectedUpgrade] = useState<string | null>(null);
 
   return (
@@ -8,7 +24,9 @@ export function UnitCard({ unit }: { unit: any }) {
       <h2>{unit.name} <span>({unit.cost} pts)</span></h2>
       <div className="stats">
         {Object.entries(unit.stats).map(([stat, value]) => (
-          <div key={stat}><strong>{stat}:</strong> {value}</div>
+          <div key={stat}>
+            <strong>{stat}:</strong> {value}
+          </div>
         ))}
       </div>
       <div className="weapons">
@@ -20,7 +38,7 @@ export function UnitCard({ unit }: { unit: any }) {
       {unit.upgrades.length > 0 && (
         <div className="upgrades">
           <strong>Améliorations:</strong>
-          {unit.upgrades.map((upgrade: any) => (
+          {unit.upgrades.map((upgrade) => (
             <label key={upgrade.name}>
               <input
                 type="radio"
@@ -36,4 +54,3 @@ export function UnitCard({ unit }: { unit: any }) {
     </div>
   );
 }
-
